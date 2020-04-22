@@ -51,7 +51,7 @@ print('data nomrize ok!')
 policy = combo.search.discrete.policy(test_X = X1)
 policy.set_seed(0)
 res = policy.random_search(max_num_probes=20,simulator=simulator())
-res = policy.bayer_search(max_num_prodes=8,simulator=simulator(),score='TS',interval=20,num_rand_basis=5000)
+res = policy.bayer_search(max_num_prodes=80,simulator=simulator(),score='TS',interval=20,num_rand_basis=5000)
 
 
 #记录所有的传输数据
