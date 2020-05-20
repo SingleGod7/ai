@@ -14,7 +14,11 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('127.0.0.1',8700))
 print('Waiting for connetion........')
 
-
+#打开一个文件操作对象
+localtime = time.strftime("%Y-%m-%d-%H-%M-%S",time.localtime())
+if not os.path.exists('data'):
+    os.mkdir('data')
+f = open('./data/%s-experiment.txt'%localtime,'w')
 #建立进程通讯
 class simulator:
     def __call__(self,action):
@@ -28,8 +32,9 @@ class simulator:
         c =float(c[1])
         sock.send(X_new.encode())
         print('Message from %s:%s'% addr) 
-        
+       
         sock.close()
+        f.write(str(c)+' '+X_new+'\n')
         return c
         
 #X的范围(0,10v)并初始化
@@ -51,13 +56,10 @@ print('data nomrize ok!')
 policy = combo.search.discrete.policy(test_X = X1)
 policy.set_seed(0)
 res = policy.random_search(max_num_probes=20,simulator=simulator())
-res = policy.bayer_search(max_num_prodes=80,simulator=simulator(),score='TS',interval=20,num_rand_basis=5000)
+res = policy.bayes_search(max_num_probes=80,simulator=simulator(),score='TS',interval=20,num_rand_basis=5000)
 
 
 #记录所有的传输数据
-localtime = time.strftime("%Y-%m-%d-%H:%M:%S",time.localtime())
-if not os.path.exists('data'):
-    os.mkdir('data')
 res.save('./data/%s.npz'% localtime)
 
 #向模型中载入数据
