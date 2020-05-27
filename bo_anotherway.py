@@ -5,7 +5,7 @@ import time
 import socket
 import os
 
-pbounds = {'x':(0.2,4),'y':(0.2,4),'z':(0.2,4),'a':(0.1,2),'b':(2,3)}
+pbounds = {'x':(0.2,4),'y':(0.2,4),'z':(0.2,4),'a':(0.1,2)}
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('127.0.0.1',8700))
 print('Waiting for connetion........')
@@ -35,7 +35,7 @@ def simulator(x,y,z,a,b):
         s.listen(1)
         sock,addr = s.accept()
         c = sock.recv(1024).decode()
-        c.split(' ')
+        c = c.split(' ')
         c = float(c[1])
         g+=1
     else:
@@ -49,10 +49,10 @@ def simulator(x,y,z,a,b):
         c = sock.recv(1024).decode()
         c = c.split(' ')
         c =float(c[1])
-        print('Message from %s:%s'% addr) 
-        print('score:%f'% c)
-        f.write('Score:'+str(c)+' Parameters:'+parameters+'\n')
-        return c
+    print('Message from %s:%s'% addr) 
+    print('score:%f'% c)
+    f.write('Score:'+str(c)+' Parameters:'+parameters+'\n')
+    return c
 
 
 optimizer = BayesianOptimization(
@@ -63,5 +63,5 @@ optimizer = BayesianOptimization(
 )
 logger = JSONLogger(path='./data/%s.json'%localtime)
 optimizer.subscribe(Events.OPTIMIZATION_STEP, logger)
-optimizer.maximize(init_points=2,n_iter=3)
+optimizer.maximize(init_points=20,n_iter=80)
 print(optimizer.max)
