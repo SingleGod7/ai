@@ -23,10 +23,9 @@ def black_box_function(x,y,z,a):
     y = round(y,2)
     z = round(z,2)
     a = round(a,2)
-    b = round(b,2)
     return simulator(x,y,z,a)
 
-def simulator(x,y,z,a,b):
+def simulator(x,y,z,a):
     global g,sock
     if g == 0:
         parameters = [str(x),str(y),str(z),str(a)]
