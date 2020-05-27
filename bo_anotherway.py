@@ -18,18 +18,18 @@ if not os.path.exists('data'):
     os.mkdir('data')
 f = open('./data/%s-experiment.txt'%localtime,'w')
 
-def black_box_function(x,y,z,a,b):
+def black_box_function(x,y,z,a):
     x = round(x,2)
     y = round(y,2)
     z = round(z,2)
     a = round(a,2)
     b = round(b,2)
-    return simulator(x,y,z,a,b)
+    return simulator(x,y,z,a)
 
 def simulator(x,y,z,a,b):
     global g,sock
     if g == 0:
-        parameters = [str(x),str(y),str(z),str(a),str(b)]
+        parameters = [str(x),str(y),str(z),str(a)]
         parameters = ' '.join(parameters)
         print('Here X = %s'% parameters)
         s.listen(1)
@@ -39,7 +39,7 @@ def simulator(x,y,z,a,b):
         c = float(c[1])
         g+=1
     else:
-        parameters = [str(x),str(y),str(z),str(a),str(b)]
+        parameters = [str(x),str(y),str(z),str(a)]
         parameters = ' '.join(parameters)
         print('Here X = %s'% parameters)
         sock.send(parameters.encode())
