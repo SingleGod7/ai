@@ -15,7 +15,8 @@ class Observer():
         for i in range(self.parameters):
             a = os.popen("ls" + self.parameters[i])
             #加入警告功能
-            f.write(self.parameters[i] + ':' + str(a) + '   ')
+            print a.read()
+            #f.write(self.parameters[i] + ':' + str(a) + '   ')
         f.write('\n')
 
     def start(self):  #定义整体循环
@@ -23,5 +24,5 @@ class Observer():
             Observe()
             time.sleep(self.waitingTime)            
 
-Observer1 = Observer()
+Observer1 = Observer([oscA，ocsB],1)
 Observer1.start() 
